@@ -5,8 +5,7 @@
 package Controlador;
 
 import Modelo.Estudiante;
-import Modelo.Persona;
-import Vista.InicioDeSesion;
+import Modelo.Proyectos;
 import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -14,6 +13,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
 import javax.swing.JOptionPane;
+
 
 /**
  *
@@ -40,52 +40,104 @@ public class PersonaControlador {
     }
 
 
- public int verificarCredenciales(String usuario, String clave) {
-    int estado = 0;
+public int verificarCredenciales(String usuario, String clave) {
+    int rol = -1;  // Inicializar el rol con un valor predeterminado
     try {
-        CallableStatement ejecutar = conectado.prepareCall("{call sp_InicioSesion(?, ?, ?)}");
+        CallableStatement ejecutar = conectado.prepareCall("{call sp_IniciaSesion(?, ?, ?)}");
         ejecutar.setString(1, usuario);
         ejecutar.setString(2, clave);
-        ejecutar.registerOutParameter(3, Types.INTEGER);
+        ejecutar.registerOutParameter(3, Types.INTEGER);  // Registro del parámetro de salida
         ejecutar.execute();
-        estado = ejecutar.getInt(3);
+
+        // Obtener el rol desde el parámetro de salida
+        rol = ejecutar.getInt(3);
+
         ejecutar.close();
-        return estado;
     } catch (SQLException e) {
         System.out.println("ERROR BDD" + e);
     }
-    return estado;
+    return rol;
 }
 
 
 
- public void CrearPersona(Persona p1) {
+
+
+
+
+ public void CrearEstudiante(Estudiante p1) {
     try {
-        String sql = "{call sp_Crearpersona(?, ?, ?, ?, ?, ?)}";
-        try (CallableStatement callableStatement = conectado.prepareCall(sql)) {
-            callableStatement.setString(1, p1.getNOMBRE_PERSONA());
-            callableStatement.setString(2, p1.getAPELLIDO_PERSONA());
-            callableStatement.setInt(3, p1.getCEDULA());
-            callableStatement.setString(4, p1.getUSUARIO());
-            callableStatement.setString(5, p1.getCLAVE());
-            callableStatement.setInt(6, p1.getROL_PERSONA());
+        String sql = "call sp_RegistrarEstudiante(?, ?, ?, ?, ?, ?,?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setString(1, p1.getNOMBRE_ESTUDIANTE());
+            statement.setString(2, p1.getAPELLIDO_ESTUDIANTE());
+            statement.setInt(3, p1.getCEDULA());
+            statement.setString(4, p1.getCORREO());
+            statement.setString(5, p1.getUSUARIO());
+            statement.setString(6, p1.getCLAVE());
+            statement.setInt(7, Estudiante.getROL());
+            int result = statement.executeUpdate();
 
-            int resultado = callableStatement.executeUpdate();
-
-            if (resultado > 0) {
-                JOptionPane.showMessageDialog(null, "Persona Creada con Éxito");
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Estudiante registrado con éxito");
             } else {
-                JOptionPane.showMessageDialog(null, "Revise los Datos ingresados");
+                JOptionPane.showMessageDialog(null, "Revisar los datos ingresados");
             }
         }
     } catch (SQLException e) {
-        e.printStackTrace();
-        JOptionPane.showMessageDialog(null, "Error SQL: " + e.getMessage());
+        JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
     }
 }
 
-   
+public void CrearProyecto(Proyectos t1) {
+    try {
+        String sql = "call sp_CrearProyecto(?, ?, ?, ?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setString(1, t1.getNOMBRE_PROYECTO());
+            statement.setString(2, t1.getDESCRIPCION_PROYECTO());
+            statement.setString(3, t1.getFECHA_INICIO());
+            statement.setString(4, t1.getFECHA_FIN());
+            
+            int result = statement.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Proyecto creado con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al crear el proyecto. Revisar los datos ingresados");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
+    }
 }
+
+public void eliminarProyecto(int idProyecto) {
+    try {
+        String sql = "call sp_EliminarProyecto(?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setInt(1, idProyecto);
+            boolean resultado = statement.execute();
+
+            // Si el resultado es verdadero, significa que se ejecutó correctamente
+            if (resultado) {
+                ResultSet rs = statement.getResultSet();
+                if (rs.next()) {
+                    String mensaje = rs.getString("mensaje");
+                    JOptionPane.showMessageDialog(null, mensaje);
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al ejecutar el procedimiento almacenado");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
+    }
+}
+}
+
+
+   
+
 
    
 

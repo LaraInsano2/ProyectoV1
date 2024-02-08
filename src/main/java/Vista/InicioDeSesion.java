@@ -138,17 +138,23 @@ public class InicioDeSesion extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void BtniniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtniniciarActionPerformed
-        // TODO add your handling code here:
-      PersonaControlador pC=new PersonaControlador();
-       int estado=pC.verificarCredenciales(txtUsuario.getText(), txtContraseña.getText());
-       if(estado!=0){
-           PantallaPrincipal m=new PantallaPrincipal();
-           m.setVisible(true);
-           this.dispose();
-       }else{
-           JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
-       }
-        
+   // TODO add your handling code here:
+PersonaControlador pC = new PersonaControlador();
+int rol = pC.verificarCredenciales(txtUsuario.getText(), txtContraseña.getText());
+if (rol == 1) {
+    PantallaEstudiante m = new PantallaEstudiante();
+    JOptionPane.showMessageDialog(null, "Bienvenido Estudiante :)");
+    m.setVisible(true);
+    this.dispose();
+} else if (rol == 0) {
+    PantallaDocente m = new PantallaDocente();
+    JOptionPane.showMessageDialog(null, "Bienvenido Docente :)");
+    m.setVisible(true);
+    this.dispose();
+} else {
+    JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
+}
+   
     }//GEN-LAST:event_BtniniciarActionPerformed
 
     private void txtContraseñaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtContraseñaActionPerformed

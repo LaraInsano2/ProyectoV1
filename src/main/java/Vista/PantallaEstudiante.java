@@ -8,12 +8,12 @@ package Vista;
  *
  * @author Dilan Lara
  */
-public class PantallaPrincipal extends javax.swing.JFrame {
+public class PantallaEstudiante extends javax.swing.JFrame {
 
     /**
      * Creates new form PantallaPrincipal
      */
-    public PantallaPrincipal() {
+    public PantallaEstudiante() {
         initComponents();
     }
 

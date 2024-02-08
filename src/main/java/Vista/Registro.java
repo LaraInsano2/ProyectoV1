@@ -5,7 +5,7 @@
 package Vista;
 
 import Controlador.PersonaControlador;
-import Modelo.Persona;
+import Modelo.Estudiante;
 import javax.swing.JOptionPane;
 
 /**
@@ -44,8 +44,6 @@ public class Registro extends javax.swing.JFrame {
         btnRegistrar = new javax.swing.JButton();
         jLabel7 = new javax.swing.JLabel();
         txtCorreo = new javax.swing.JTextField();
-        Usuariobtn = new javax.swing.JComboBox<>();
-        jLabel8 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -107,11 +105,6 @@ public class Registro extends javax.swing.JFrame {
             }
         });
 
-        Usuariobtn.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Estudiante", "Docente", " " }));
-
-        jLabel8.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-        jLabel8.setText("Escoga un Rol");
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -150,21 +143,15 @@ public class Registro extends javax.swing.JFrame {
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(246, 246, 246))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(btnRegistrar)
-                        .addGap(254, 254, 254))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel8, javax.swing.GroupLayout.PREFERRED_SIZE, 110, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(Usuariobtn, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addComponent(jLabel6))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())))
+                .addContainerGap(332, Short.MAX_VALUE)
+                .addComponent(jLabel6)
+                .addGap(18, 18, 18)
+                .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, 139, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(249, 249, 249)
+                .addComponent(btnRegistrar)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -189,13 +176,9 @@ public class Registro extends javax.swing.JFrame {
                     .addComponent(txtClave, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(jLabel7)
                     .addComponent(txtCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(28, 28, 28)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(Usuariobtn, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel8))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 83, Short.MAX_VALUE)
+                .addGap(52, 52, 52)
                 .addComponent(btnRegistrar)
-                .addGap(79, 79, 79))
+                .addContainerGap(160, Short.MAX_VALUE))
         );
 
         pack();
@@ -219,43 +202,36 @@ public class Registro extends javax.swing.JFrame {
 
     private void btnRegistrarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegistrarActionPerformed
 // Crear una instancia de la ventana de inicio de sesión
-InicioDeSesion inicioSesion = new InicioDeSesion();
-  String nombres = txtNombres.getText();
+    InicioDeSesion inicioSesion = new InicioDeSesion();
+    
+    String nombres = txtNombres.getText();
     String apellidos = txtApellidos.getText();
     int cedula = Integer.parseInt(txtCedula.getText());
     String correo = txtCorreo.getText();
     String usuario = txtUsuario.getText();
     String clave = txtClave.getText();
-    boolean esDocente = Usuariobtn.isSelected();
+    try {
 
-    
-try {
-    // Obtener los datos del formulario
-    // Crear un objeto Estudiante con los datos obtenidos
-    Persona p1 = new Persona();
-    p1.setNOMBRE_PERSONA(nombres);
-    p1.setAPELLIDO_PERSONA(apellidos);
-    p1.setCEDULA(cedula);
-    p1.setCORREO(correo);
-    p1.setUSUARIO(usuario);
-    p1.setCLAVE(clave);
-    // Establecer el rol dependiendo de si es docente o estudiante
-    p1.setROL_PERSONA(esDocente ? Rol.DOCENTE : Rol.ESTUDIANTE);
+// Crear un objeto Persona con los datos obtenidos
+Estudiante p1 = new Estudiante();
+p1.setNOMBRE_ESTUDIANTE(nombres);
+p1.setAPELLIDO_ESTUDIANTE(apellidos);
+p1.setCEDULA(cedula);
+p1.setCORREO(correo);
+p1.setUSUARIO(usuario);
+p1.setCLAVE(clave);
+        
+        // Llamar al método RegistrarEstudiante para registrar al estudiante
+        RegistrarEstudiante(p1);
 
+        // Cerrar la ventana actual
+        Registro.this.dispose();
 
-    // Llamar al método RegistrarEstudiante para registrar al estudiante
-    RegistrarEstudiante(p1);
-
-    // Cerrar la ventana actual
-    Registro.this.dispose();
-
-    // Hacer visible la ventana de inicio de sesión
-    inicioSesion.setVisible(true);
-} catch (NumberFormatException e) {
-    JOptionPane.showMessageDialog(null, "Error en el formato del número de cédula.");
-} catch (Exception e) {
-    JOptionPane.showMessageDialog(null, "Error al registrar estudiante: " + e.getMessage());
-}
+        // Hacer visible la ventana de inicio de sesión
+        inicioSesion.setVisible(true);
+    } catch (Exception e) {
+        JOptionPane.showMessageDialog(null, "Error en el formato del número de cédula.");
+    }
 
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
@@ -264,13 +240,13 @@ try {
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCorreoActionPerformed
 
- private void RegistrarEstudiante(Persona p1) {
+ private void RegistrarEstudiante(Estudiante p1) {
     try {
         // Validaciones adicionales si es necesario antes de registrar al estudiante
   
         // Crear una instancia de PersonaControlador y registrar al estudiante
         PersonaControlador controlador = new PersonaControlador();
-        controlador.CrearPersona(p1);
+        controlador.CrearEstudiante(p1);
         // Limpieza de los campos del formulario después de registrar
         limpiarCampos();
         
@@ -296,7 +272,6 @@ private void limpiarCampos() {
      */
    
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JComboBox<String> Usuariobtn;
     private javax.swing.JButton btnRegistrar;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -305,7 +280,6 @@ private void limpiarCampos() {
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
-    private javax.swing.JLabel jLabel8;
     private javax.swing.JTextField txtApellidos;
     private javax.swing.JTextField txtCedula;
     private javax.swing.JPasswordField txtClave;

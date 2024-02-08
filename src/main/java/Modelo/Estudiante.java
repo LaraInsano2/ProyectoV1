@@ -17,11 +17,12 @@ public class Estudiante {
  private String CORREO;
  private String USUARIO;
  private String CLAVE;
- private int ROL;
+ private static int ROL =1;
+
  
  public Estudiante(){}
 
-    public Estudiante(int ID_ESTUDIANTE, int ID_PERSONA, String NOMBRE_ESTUDIANTE, String APELLIDO_ESTUDIANTE, int CEDULA, String CORREO, String USUARIO, String CLAVE, int ROL) {
+    public Estudiante(int ID_ESTUDIANTE, int ID_PERSONA, String NOMBRE_ESTUDIANTE, String APELLIDO_ESTUDIANTE, int CEDULA, String CORREO, String USUARIO, String CLAVE) {
         this.ID_ESTUDIANTE = ID_ESTUDIANTE;
         this.ID_PERSONA = ID_PERSONA;
         this.NOMBRE_ESTUDIANTE = NOMBRE_ESTUDIANTE;
@@ -30,7 +31,6 @@ public class Estudiante {
         this.CORREO = CORREO;
         this.USUARIO = USUARIO;
         this.CLAVE = CLAVE;
-        this.ROL = ROL;
     }
 
     public int getID_ESTUDIANTE() {
@@ -97,13 +97,15 @@ public class Estudiante {
         this.CLAVE = CLAVE;
     }
 
-    public int getROL() {
+    public static int getROL() {
         return ROL;
     }
 
-    public void setROL(int ROL) {
-        this.ROL = ROL;
+    public static void setROL(int rol) {
+        Estudiante.ROL = rol;
     }
+
+   
 
      
 
