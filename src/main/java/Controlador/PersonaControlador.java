@@ -5,6 +5,7 @@
 package Controlador;
 
 import Modelo.Estudiante;
+import Modelo.Grupo;
 import Modelo.Proyectos;
 import java.sql.CallableStatement;
 import java.sql.Connection;
@@ -58,11 +59,6 @@ public int verificarCredenciales(String usuario, String clave) {
     }
     return rol;
 }
-
-
-
-
-
 
 
  public void CrearEstudiante(Estudiante p1) {
@@ -133,6 +129,29 @@ public void eliminarProyecto(int idProyecto) {
         JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
     }
 }
+
+public void CrearGrupo(Grupo grupo) {
+    try {
+        String sql = "call sp_CrearGrupos(?, ?, ?, ?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setInt(1, grupo.getID_ESTUDIANTE());
+            statement.setString(2, grupo.getGRUPO());
+            statement.setInt(3, grupo.getNUM_GRUPO());
+            statement.setString(4, grupo.getNOMBRE_ESTUDIANTE());
+
+            int result = statement.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Grupo creado con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al crear el grupo. Revisar los datos ingresados");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
+    }
+}
+
 }
 
 

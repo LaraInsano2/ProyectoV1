@@ -29,9 +29,13 @@ public class PantallaDocente extends javax.swing.JFrame {
         InicioDocente = new javax.swing.JPanel();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
+        VerProyectos = new javax.swing.JMenuItem();
         MenuCrearTema = new javax.swing.JMenuItem();
-        jMenu2 = new javax.swing.JMenu();
+        VerEstudiantes = new javax.swing.JMenuItem();
+        CerrarMenuD = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        Asignar = new javax.swing.JMenuItem();
+        VerGrupos = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -46,15 +50,16 @@ public class PantallaDocente extends javax.swing.JFrame {
             .addGap(0, 652, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("File");
+        jMenu1.setText("Menu Proyectos");
 
-        jMenuItem1.setText("Ver Estudiantes");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        VerProyectos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
+        VerProyectos.setText("Proyectos");
+        VerProyectos.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                VerProyectosActionPerformed(evt);
             }
         });
-        jMenu1.add(jMenuItem1);
+        jMenu1.add(VerProyectos);
 
         MenuCrearTema.setText("Crear Proyectos De Investigacion");
         MenuCrearTema.addActionListener(new java.awt.event.ActionListener() {
@@ -64,10 +69,43 @@ public class PantallaDocente extends javax.swing.JFrame {
         });
         jMenu1.add(MenuCrearTema);
 
+        VerEstudiantes.setText("Ver Estudiantes");
+        VerEstudiantes.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerEstudiantesActionPerformed(evt);
+            }
+        });
+        jMenu1.add(VerEstudiantes);
+
+        CerrarMenuD.setText("Cerrar Sesion");
+        CerrarMenuD.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                CerrarMenuDActionPerformed(evt);
+            }
+        });
+        jMenu1.add(CerrarMenuD);
+
         jMenuBar1.add(jMenu1);
 
-        jMenu2.setText("Edit");
-        jMenuBar1.add(jMenu2);
+        jMenu3.setText("Asignar Proyectos");
+
+        Asignar.setText("Asignar");
+        Asignar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarActionPerformed(evt);
+            }
+        });
+        jMenu3.add(Asignar);
+
+        VerGrupos.setText("Ver Grupos ");
+        VerGrupos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                VerGruposActionPerformed(evt);
+            }
+        });
+        jMenu3.add(VerGrupos);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
@@ -85,12 +123,12 @@ public class PantallaDocente extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
+    private void VerProyectosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerProyectosActionPerformed
         // TODO add your handling code here:
         VerProyecto ventana=new VerProyecto();
         InicioDocente.add(ventana);
         ventana.show();
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
+    }//GEN-LAST:event_VerProyectosActionPerformed
 
     private void MenuCrearTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_MenuCrearTemaActionPerformed
         // TODO add your handling code here:
@@ -101,17 +139,51 @@ public class PantallaDocente extends javax.swing.JFrame {
         
     }//GEN-LAST:event_MenuCrearTemaActionPerformed
 
+    private void CerrarMenuDActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CerrarMenuDActionPerformed
+        // TODO add your handling code here:
+        
+        InicioDeSesion inicio =new InicioDeSesion();
+        inicio.setVisible(true);
+    // Cerrar la ventana actual
+         this.dispose();
+    }//GEN-LAST:event_CerrarMenuDActionPerformed
+
+    private void VerEstudiantesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerEstudiantesActionPerformed
+        // TODO add your handling code here:
+        VerEstudiantes ventana= new VerEstudiantes();
+        InicioDocente.add(ventana);
+        ventana.show();
+    }//GEN-LAST:event_VerEstudiantesActionPerformed
+
+    private void AsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarActionPerformed
+        // TODO add your handling code here:
+        CrearGrupo grupo =new CrearGrupo();
+        InicioDocente.add(grupo);
+        grupo.show();
+    }//GEN-LAST:event_AsignarActionPerformed
+
+    private void VerGruposActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerGruposActionPerformed
+        // TODO add your handling code here:
+        VerGrupos gr =new VerGrupos();
+        InicioDocente.add(gr);
+        gr.show();
+    }//GEN-LAST:event_VerGruposActionPerformed
+
     /**
      * @param args the command line arguments
      */
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem Asignar;
+    private javax.swing.JMenuItem CerrarMenuD;
     private javax.swing.JPanel InicioDocente;
     private javax.swing.JMenuItem MenuCrearTema;
+    private javax.swing.JMenuItem VerEstudiantes;
+    private javax.swing.JMenuItem VerGrupos;
+    private javax.swing.JMenuItem VerProyectos;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
+    private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
     // End of variables declaration//GEN-END:variables
 }

@@ -18,7 +18,7 @@ import javax.swing.table.DefaultTableModel;
  * @author Dilan Lara
  */
 public final class VerProyecto extends javax.swing.JInternalFrame {
-         ConexionBDD conectar = new ConexionBDD();
+    ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     DefaultTableModel modelo;
 

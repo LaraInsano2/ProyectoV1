@@ -103,8 +103,8 @@ public class CrearProyecto extends javax.swing.JInternalFrame {
                                 .addComponent(txtFin, javax.swing.GroupLayout.DEFAULT_SIZE, 214, Short.MAX_VALUE)
                                 .addComponent(txtInicio))
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(btnCrear)
-                                .addGap(26, 26, 26))))
+                                .addGap(74, 74, 74)
+                                .addComponent(btnCrear))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(137, 137, 137)
                         .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 424, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -134,9 +134,9 @@ public class CrearProyecto extends javax.swing.JInternalFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel5)
                     .addComponent(txtFin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(37, 37, 37)
+                .addGap(38, 38, 38)
                 .addComponent(btnCrear)
-                .addContainerGap(50, Short.MAX_VALUE))
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         pack();
