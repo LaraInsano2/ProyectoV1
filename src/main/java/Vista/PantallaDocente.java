@@ -36,6 +36,9 @@ public class PantallaDocente extends javax.swing.JFrame {
         jMenu3 = new javax.swing.JMenu();
         Asignar = new javax.swing.JMenuItem();
         VerGrupos = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        AsignarProyecto = new javax.swing.JMenuItem();
+        AsignacionProyecto = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -50,7 +53,7 @@ public class PantallaDocente extends javax.swing.JFrame {
             .addGap(0, 652, Short.MAX_VALUE)
         );
 
-        jMenu1.setText("Menu Proyectos");
+        jMenu1.setText("Menu Principal");
 
         VerProyectos.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_P, java.awt.event.InputEvent.CTRL_DOWN_MASK));
         VerProyectos.setText("Proyectos");
@@ -87,7 +90,7 @@ public class PantallaDocente extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu1);
 
-        jMenu3.setText("Asignar Proyectos");
+        jMenu3.setText("Asignar Grupos");
 
         Asignar.setText("Asignar");
         Asignar.addActionListener(new java.awt.event.ActionListener() {
@@ -106,6 +109,26 @@ public class PantallaDocente extends javax.swing.JFrame {
         jMenu3.add(VerGrupos);
 
         jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Estado Proyecto");
+
+        AsignarProyecto.setText("Ver Asignaciones Proyecto");
+        AsignarProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignarProyectoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(AsignarProyecto);
+
+        AsignacionProyecto.setText("Crear Asignacion de Proyecto");
+        AsignacionProyecto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                AsignacionProyectoActionPerformed(evt);
+            }
+        });
+        jMenu2.add(AsignacionProyecto);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -169,13 +192,29 @@ public class PantallaDocente extends javax.swing.JFrame {
         gr.show();
     }//GEN-LAST:event_VerGruposActionPerformed
 
+    private void AsignarProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignarProyectoActionPerformed
+        // TODO add your handling code here:
+        VerAsignacion as =new VerAsignacion();
+        InicioDocente.add(as);
+        as.show();
+    }//GEN-LAST:event_AsignarProyectoActionPerformed
+
+    private void AsignacionProyectoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_AsignacionProyectoActionPerformed
+        // TODO add your handling code here:
+        CrearAsignacion ca=new CrearAsignacion();
+        InicioDocente.add(ca);
+        ca.show();
+    }//GEN-LAST:event_AsignacionProyectoActionPerformed
+
     /**
      * @param args the command line arguments
      */
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JMenuItem AsignacionProyecto;
     private javax.swing.JMenuItem Asignar;
+    private javax.swing.JMenuItem AsignarProyecto;
     private javax.swing.JMenuItem CerrarMenuD;
     private javax.swing.JPanel InicioDocente;
     private javax.swing.JMenuItem MenuCrearTema;
@@ -183,6 +222,7 @@ public class PantallaDocente extends javax.swing.JFrame {
     private javax.swing.JMenuItem VerGrupos;
     private javax.swing.JMenuItem VerProyectos;
     private javax.swing.JMenu jMenu1;
+    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
     // End of variables declaration//GEN-END:variables

@@ -4,6 +4,7 @@
  */
 package Controlador;
 
+import Modelo.Asignacion;
 import Modelo.Estudiante;
 import Modelo.Grupo;
 import Modelo.Proyectos;
@@ -13,6 +14,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 
@@ -152,7 +154,61 @@ public void CrearGrupo(Grupo grupo) {
     }
 }
 
+public void CrearAsignacion(Asignacion a1) {
+    try {
+        String sql = "INSERT INTO Asignacion (ID_ASIGNACION, GRUPO, NOMBRE_PROYECTO, NOMBRE_DOCENTE, APELLIDO_DOCENTE, ESTADO_TAREA, FECHA_INICIO_TAREA, FECHA_FIN_TAREA) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setInt(1, a1.getID_ASIGANCION());
+            statement.setString(2, a1.getGRUPO());
+            statement.setString(3, a1.getNOMBRE_PROYECTO());
+            statement.setString(4, a1.getNOMBRE_DOCENTE());
+            statement.setString(5, a1.getAPELLIDO_DOCENTE());
+            statement.setString(6, a1.getESTADO_TAREA());
+            statement.setString(7, a1.getFECHA_INCIO_TAREA());
+            statement.setString(8, a1.getFECHA_FIN_TAREA());
+            int result = statement.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Asignacion creado con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al crear Asignacion. Revisar los datos ingresados");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "COMUNICARSE CON EL ADMINISTRADOR DEL SISTEMA");
+    }
 }
+
+
+
+    public ArrayList<Object[]> VerEstudiantes() {
+       
+    ArrayList<Object[]> listaResutaldo = new ArrayList<>();
+        try {
+            String SQL = "CALL MostrarEntrenadores()";
+            ejecutar = (PreparedStatement) conectado.prepareCall(SQL);
+            ResultSet res = ejecutar.executeQuery();
+
+            while (res.next()) {
+                Object[] fila = new Object[8];
+                for (int i = 0; i < 8; i++) {
+                    fila[i] = res.getObject(i + 1);
+                }
+                listaResutaldo.add(fila);
+
+            }
+            res.close();
+            return listaResutaldo;
+        } catch (Exception e) {
+            System.out.println(e);
+
+        }
+        return null;
+
+    }
+}
+
+
 
 
    
