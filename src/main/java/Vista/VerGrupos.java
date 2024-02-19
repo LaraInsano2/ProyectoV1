@@ -28,7 +28,7 @@ public final class VerGrupos extends javax.swing.JInternalFrame {
    
     public VerGrupos() {
         initComponents();
-         modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel();
         modelo.addColumn("ID GRUPO");
         modelo.addColumn("ID ESTUDIANTE");
         modelo.addColumn("GRUPO");

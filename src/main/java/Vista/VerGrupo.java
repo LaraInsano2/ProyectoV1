@@ -16,60 +16,51 @@ import javax.swing.table.DefaultTableModel;
  *
  * @author Dilan Lara
  */
-public final class VerProyectoE extends javax.swing.JFrame {
+public final class VerGrupo extends javax.swing.JFrame {
   ConexionBDD conectar = new ConexionBDD();
     Connection conectado = conectar.conectar();
     DefaultTableModel modelo;
     /**
-     * Creates new form VerProyectoE
+     * Creates new form VerGrupo
      */
-    public VerProyectoE() {
+    public VerGrupo() {
         initComponents();
-         modelo = new DefaultTableModel();
+        modelo = new DefaultTableModel();  
         modelo.addColumn("Nro.");
-        modelo.addColumn("NOMBRE_PROYECTO");
-        modelo.addColumn("DESCRIPCION");
-        modelo.addColumn("FECHA INICIO");
-        modelo.addColumn("FECHA FINAL");
-        TbDatosProyectos.setModel(modelo);
-        // Ajusta el tamaño de las columnas
-TbDatosProyectos.getColumnModel().getColumn(0).setPreferredWidth(10); // Nro.
-TbDatosProyectos.getColumnModel().getColumn(1).setPreferredWidth(75); // NOMBRE_PROYECTO
-TbDatosProyectos.getColumnModel().getColumn(2).setPreferredWidth(225); // DESCRIPCION
-TbDatosProyectos.getColumnModel().getColumn(3).setPreferredWidth(25); // FECHA INICIO
-TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA FINAL
+        modelo.addColumn("GRUPO");
+        modelo.addColumn("NUMERO DE GRUPO");
+        modelo.addColumn("NOMBRE DEL ESTUDIANTE");
+        tbDatosGrupos.setModel(modelo);
         MostrarDatos(0, null);
     }
-    
-     public void MostrarDatos(int opBuscar, String valor) {
+    public void MostrarDatos(int opBuscar, String valor) {  
     limpiarTabla();
 
     String codsql;
     if (opBuscar == 0 && valor == null) {
-        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos";
+        codsql = "SELECT GRUPO, NUM_GRUPO, NOMBRE_ESTUDIANTE FROM GRUPO";
     } else if (opBuscar == 1 && valor != null) {
-        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos WHERE NOMBRE_PROYECTO='" + valor + "'";
+        codsql = "SELECT GRUPO, NUM_GRUPO, NOMBRE_ESTUDIANTE FROM GRUPO WHERE GRUPO='" + valor + "'";
     } else if (opBuscar == 2 && valor != null) {
-        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos WHERE DESCRIPCION_PROYECTO='" + valor + "'";
+        codsql = "SELECT GRUPO, NUM_GRUPO, NOMBRE_ESTUDIANTE FROM GRUPO WHERE NUM_GRUPO='" + valor + "'";
     } else {
-        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos";
+        codsql = "SELECT GRUPO, NUM_GRUPO, NOMBRE_ESTUDIANTE FROM GRUPO";
     }
 
-    String[] datos = new String[5]; // Añadir una columna más para el número de fila
+    String[] datos = new String[4]; // Cambiado a 5 para incluir las columnas especificadas
     int numeroFila = 1; // Variable para contar el número de fila
     try {
         Statement leer = conectado.createStatement();
         ResultSet resultado = leer.executeQuery(codsql);
         while (resultado.next()) {
             datos[0] = String.valueOf(numeroFila); // Número de fila
-            datos[1] = resultado.getString(1); // NOMBRE_PROYECTO
-            datos[2] = resultado.getString(2); // DESCRIPCION_PROYECTO
-            datos[3] = resultado.getString(3); // FECHA_INICIO
-            datos[4] = resultado.getString(4); // FECHA_FIN
+            datos[1] = resultado.getString(1);
+            datos[2] = resultado.getString(2);
+            datos[3] = resultado.getString(3);
             modelo.addRow(datos);
             numeroFila++; // Incrementar el número de fila
         }
-        TbDatosProyectos.setModel(modelo);
+        tbDatosGrupos.setModel(modelo);
     } catch (SQLException e) {
         JOptionPane.showInputDialog(null, "error");
     }
@@ -85,46 +76,26 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        TbDatosProyectos = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         ComboOpcion = new javax.swing.JComboBox<>();
         txtBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbDatosGrupos = new javax.swing.JTable();
+        btnRegresar = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
-        TbDatosProyectos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-
-            },
-            new String [] {
-
-            }
-        ));
-        TbDatosProyectos.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseClicked(java.awt.event.MouseEvent evt) {
-                TbDatosProyectosMouseClicked(evt);
-            }
-        });
-        jScrollPane1.setViewportView(TbDatosProyectos);
-
         jPanel2.setBackground(new java.awt.Color(204, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Buscar Por:"));
         jPanel2.setToolTipText("");
         jPanel2.setName("Buscar Por:"); // NOI18N
 
-        ComboOpcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mostrar Todos", "Nombre del Proyecto", "Descripcion" }));
-        ComboOpcion.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                ComboOpcionActionPerformed(evt);
-            }
-        });
+        ComboOpcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mostrar Todos", "Nombre del Grupo", "Numero de Grupo" }));
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -146,18 +117,17 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
         jPanel2Layout.setHorizontalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addContainerGap(224, Short.MAX_VALUE)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(ComboOpcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(116, 116, 116)
-                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(180, 180, 180))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                        .addComponent(btnBuscar)
-                        .addGap(236, 236, 236))))
+                .addGap(119, 119, 119)
+                .addComponent(ComboOpcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(152, 152, 152)
+                .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 167, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(153, Short.MAX_VALUE)
+                .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 158, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 139, 139)
+                .addComponent(btnBuscar)
+                .addGap(240, 240, 240))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -175,15 +145,28 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
                 .addContainerGap())
         );
 
-        jButton2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\regresar2.png")); // NOI18N
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        tbDatosGrupos.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {},
+                {},
+                {},
+                {}
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tbDatosGrupos);
+
+        btnRegresar.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\regresar2.png")); // NOI18N
+        btnRegresar.setBorder(null);
+        btnRegresar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnRegresarActionPerformed(evt);
             }
         });
 
-        jLabel1.setBackground(new java.awt.Color(153, 255, 255));
-        jLabel1.setFont(new java.awt.Font("Palatino Linotype", 2, 18)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
         jLabel1.setText("Regresar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -191,42 +174,43 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 832, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
                         .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane1)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 63, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(109, Short.MAX_VALUE))
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 60, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnRegresar, javax.swing.GroupLayout.PREFERRED_SIZE, 50, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(14, 14, 14)))
                 .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(45, Short.MAX_VALUE))
+                .addGap(18, 18, 18)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 438, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(49, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -238,21 +222,11 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void TbDatosProyectosMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TbDatosProyectosMouseClicked
-        // TODO add your handling code here:
-
-    }//GEN-LAST:event_TbDatosProyectosMouseClicked
-
-    private void ComboOpcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboOpcionActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_ComboOpcionActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
         int Buscar=ComboOpcion.getSelectedIndex();
         String valorbus=txtBuscar.getText();
         MostrarDatos(Buscar,valorbus);
-
     }//GEN-LAST:event_btnBuscarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -260,30 +234,30 @@ TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA F
         limpiarTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnRegresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRegresarActionPerformed
         // TODO add your handling code here:
-             PantallaEstudiante inicioE =new PantallaEstudiante();
+        PantallaEstudiante inicioE =new PantallaEstudiante();
         inicioE.setVisible(true);
-    // Cerrar la ventana actual
-         this.dispose();
-    }//GEN-LAST:event_jButton2ActionPerformed
+        // Cerrar la ventana actual
+        this.dispose();
+    }//GEN-LAST:event_btnRegresarActionPerformed
 
-  
-    private void limpiarTabla() {
+private void limpiarTabla() {
         // Limpiar el modelo actual de la tabla
-        DefaultTableModel modeloTabla = (DefaultTableModel) TbDatosProyectos.getModel();
+        DefaultTableModel modeloTabla = (DefaultTableModel) tbDatosGrupos.getModel();
         modeloTabla.setRowCount(0);
     }
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JComboBox<String> ComboOpcion;
-    private javax.swing.JTable TbDatosProyectos;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnRegresar;
     private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tbDatosGrupos;
     private javax.swing.JTextField txtBuscar;
     // End of variables declaration//GEN-END:variables
 }

@@ -38,7 +38,7 @@ public class PantallaEstudiante extends javax.swing.JFrame {
         jPanel5 = new javax.swing.JPanel();
         IST = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        VerResultados = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         VerProyectosE = new javax.swing.JButton();
         jLabel3 = new javax.swing.JLabel();
@@ -131,16 +131,16 @@ public class PantallaEstudiante extends javax.swing.JFrame {
         jLabel1.setText("Ver Resultados del Proyecto");
         jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(470, 330, 170, 40));
 
-        jButton1.setBackground(new java.awt.Color(204, 255, 255));
-        jButton1.setForeground(new java.awt.Color(255, 255, 255));
-        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\certificado.png")); // NOI18N
-        jButton1.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        VerResultados.setBackground(new java.awt.Color(204, 255, 255));
+        VerResultados.setForeground(new java.awt.Color(255, 255, 255));
+        VerResultados.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\certificado.png")); // NOI18N
+        VerResultados.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        VerResultados.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                VerResultadosActionPerformed(evt);
             }
         });
-        jPanel1.add(jButton1, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 130, 140));
+        jPanel1.add(VerResultados, new org.netbeans.lib.awtextra.AbsoluteConstraints(480, 180, 130, 140));
 
         jLabel2.setFont(new java.awt.Font("Franklin Gothic Heavy", 2, 18)); // NOI18N
         jLabel2.setText("Gestion de Investigacion De Proyectos");
@@ -230,22 +230,28 @@ public class PantallaEstudiante extends javax.swing.JFrame {
 
     private void VerProyectosEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerProyectosEActionPerformed
         // TODO add your handling code here:
-        
+        VerProyectoE ve=new VerProyectoE();
+        ve.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_VerProyectosEActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void VerResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerResultadosActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jButton1ActionPerformed
+        
+    }//GEN-LAST:event_VerResultadosActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
+        VerGrupo vg=new VerGrupo();
+        vg.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_jButton2ActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel IST;
     private javax.swing.JButton VerProyectosE;
-    private javax.swing.JButton jButton1;
+    private javax.swing.JButton VerResultados;
     private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
