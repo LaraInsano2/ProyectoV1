@@ -4,6 +4,12 @@
  */
 package Vista;
 
+
+import Controlador.PersonaControlador;
+import Modelo.Estudiante;
+import java.awt.HeadlessException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author Dilan Lara
@@ -31,10 +37,12 @@ public class CambiarDatos extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
+        txtClave = new javax.swing.JTextField();
+        txtUsuarioA = new javax.swing.JTextField();
         btnCambiarDatos = new javax.swing.JButton();
         jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txtUsuario = new javax.swing.JTextField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setMinimumSize(new java.awt.Dimension(640, 450));
@@ -62,8 +70,8 @@ public class CambiarDatos extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 24)); // NOI18N
         jLabel3.setText("Nuevos Datos");
         jPanel1.add(jLabel3, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 70, 190, 30));
-        jPanel1.add(jTextField1, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 200, 30));
-        jPanel1.add(jTextField2, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 180, 200, 30));
+        jPanel1.add(txtClave, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 250, 200, 30));
+        jPanel1.add(txtUsuarioA, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 150, 200, 30));
 
         btnCambiarDatos.setBackground(new java.awt.Color(51, 51, 255));
         btnCambiarDatos.setForeground(new java.awt.Color(255, 255, 255));
@@ -76,8 +84,13 @@ public class CambiarDatos extends javax.swing.JFrame {
         jPanel1.add(btnCambiarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 130, 40));
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 14)); // NOI18N
-        jLabel4.setText("Nuevo Usuario:");
-        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 180, 130, 30));
+        jLabel4.setText("Usuario Actual:");
+        jPanel1.add(jLabel4, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 150, 130, 30));
+
+        jLabel5.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 14)); // NOI18N
+        jLabel5.setText("Nuevo Usuario:");
+        jPanel1.add(jLabel5, new org.netbeans.lib.awtextra.AbsoluteConstraints(120, 200, 130, 30));
+        jPanel1.add(txtUsuario, new org.netbeans.lib.awtextra.AbsoluteConstraints(280, 200, 200, 30));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -102,12 +115,52 @@ public class CambiarDatos extends javax.swing.JFrame {
     }//GEN-LAST:event_btnRegresarActionPerformed
 
     private void btnCambiarDatosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarDatosActionPerformed
-        // TODO add your handling code here:
-        
-        
+    // TODO add your handling code here:
+    String ActualUsuario = txtUsuarioA.getText();
+    String NuevoUsuario = txtUsuario.getText();
+    String NuevaClave = txtClave.getText();
+
+  
+        Estudiante e1=new Estudiante();
+       e1.setUSUARIO(ActualUsuario);
+        e1.setUSUARIO(NuevoUsuario);
+        e1.setCLAVE(NuevaClave);
+
+        // Actualizar datos del estudiante
+      actualizarDatos(ActualUsuario, NuevoUsuario, NuevaClave);
+        // Limpiar campos y cerrar ventana actual
+        limpiarCampos();
+        CambiarDatos.this.dispose();
+
+        // Abrir la nueva ventana
+        PantallaEstudiante pe = new PantallaEstudiante();
+        pe.setVisible(true);
+   
     }//GEN-LAST:event_btnCambiarDatosActionPerformed
 
- 
+ private void actualizarDatos(String ActualUsuario, String NuevoUsuario, String NuevaClave) {
+         try {
+        // Suponiendo que tienes un objeto PersonaControlador para interactuar con la capa de datos
+        PersonaControlador controlador = new PersonaControlador();
+
+        // Llamada al método de actualización con los tres parámetros
+        String resultado = controlador.actualizarDatosEstudiante(ActualUsuario, NuevoUsuario, NuevaClave);
+
+        // Mostrar el resultado
+        JOptionPane.showMessageDialog(null, resultado);
+
+        limpiarCampos();
+    } catch (HeadlessException e) {
+        JOptionPane.showMessageDialog(null, "Error al actualizar datos del estudiante: " + e.getMessage());
+    }
+    }
+
+ private void limpiarCampos() {
+       txtUsuarioA.setText("");
+       txtUsuario.setText("");
+       txtClave.setText("");
+    }
+
    
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -117,8 +170,14 @@ public class CambiarDatos extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
+    private javax.swing.JTextField txtClave;
+    private javax.swing.JTextField txtUsuario;
+    private javax.swing.JTextField txtUsuarioA;
     // End of variables declaration//GEN-END:variables
+
+   
+
+   
 }

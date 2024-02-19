@@ -230,6 +230,7 @@ public class PantallaEstudiante extends javax.swing.JFrame {
 
     private void VerProyectosEActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerProyectosEActionPerformed
         // TODO add your handling code here:
+        
     }//GEN-LAST:event_VerProyectosEActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

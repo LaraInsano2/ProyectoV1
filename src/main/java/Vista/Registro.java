@@ -221,9 +221,11 @@ Estudiante es = new Estudiante();
     String apellidos = txtApellidos.getText();
     int cedula = Integer.parseInt(txtCedula.getText());
     String correo = txtCorreo.getText();
-    validarCorreo(correo);
+    validarCorreo(txtCorreo.getText());
     String usuario = txtUsuario.getText();
     String clave = txtClave.getText();
+ 
+    
     try {
 
 // Crear un objeto Persona con los datos obtenidos
@@ -235,7 +237,8 @@ p1.setCORREO(correo);
 p1.setUSUARIO(usuario);
 p1.setCLAVE(clave);
 
-        // Llamar al método RegistrarEstudiante para registrar al estudiante
+
+// Llamar al método RegistrarEstudiante para registrar al estudiante
         RegistrarEstudiante(p1);
 
         // Cerrar la ventana actual
@@ -250,6 +253,7 @@ p1.setCLAVE(clave);
 
     }//GEN-LAST:event_btnRegistrarActionPerformed
 
+
     private void txtCorreoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCorreoActionPerformed
         // TODO add your handling code here:
        
@@ -257,21 +261,27 @@ p1.setCLAVE(clave);
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        PantallaEstudiante inicioE =new PantallaEstudiante();
+       InicioDeSesion inicioE =new InicioDeSesion();
         inicioE.setVisible(true);
     // Cerrar la ventana actual
          this.dispose();
     }//GEN-LAST:event_jButton1ActionPerformed
 
-    public void validarCorreo(String correo) {
-        String validar = "^[a-zA-Z0-9._%+-]+@ist17julio\\.ec$";
-        if (correo.matches(validar)) {
-            es.setCORREO(correo);
-            txtCorreo.setForeground(null);
-        } else {
-            txtCorreo.setForeground(Color.red);
-        }
+   public void validarCorreo(String correo) {
+    String validar = "^[a-zA-Z0-9._%+-]+@ist17julio\\.ec$";
+    if (correo.matches(validar)) {
+        es.setCORREO(correo);
+        txtCorreo.setForeground(null);
+        
+    } else {
+        txtCorreo.setForeground(Color.red);
+      
+        
     }
+}
+   
+
+
     
  private void RegistrarEstudiante(Estudiante p1) {
     try {

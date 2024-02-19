@@ -31,6 +31,7 @@ public class PantallaDocente extends javax.swing.JFrame {
         jMenu1 = new javax.swing.JMenu();
         VerProyectos = new javax.swing.JMenuItem();
         MenuCrearTema = new javax.swing.JMenuItem();
+        jSeparator1 = new javax.swing.JPopupMenu.Separator();
         VerEstudiantes = new javax.swing.JMenuItem();
         CerrarMenuD = new javax.swing.JMenuItem();
         jMenu3 = new javax.swing.JMenu();
@@ -39,10 +40,12 @@ public class PantallaDocente extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         AsignarProyecto = new javax.swing.JMenuItem();
         AsignacionProyecto = new javax.swing.JMenuItem();
+        jSeparator2 = new javax.swing.JPopupMenu.Separator();
         Resultados = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setResizable(false);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLocation(new java.awt.Point(0, 0));
 
         InicioDocente.setBackground(new java.awt.Color(255, 255, 255));
         InicioDocente.setPreferredSize(new java.awt.Dimension(1080, 720));
@@ -55,7 +58,7 @@ public class PantallaDocente extends javax.swing.JFrame {
         );
         InicioDocenteLayout.setVerticalGroup(
             InicioDocenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 720, Short.MAX_VALUE)
+            .addGap(0, 866, Short.MAX_VALUE)
         );
 
         jMenuBar1.setBackground(new java.awt.Color(204, 204, 255));
@@ -79,6 +82,7 @@ public class PantallaDocente extends javax.swing.JFrame {
             }
         });
         jMenu1.add(MenuCrearTema);
+        jMenu1.add(jSeparator1);
 
         VerEstudiantes.setText("Ver Estudiantes");
         VerEstudiantes.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +92,7 @@ public class PantallaDocente extends javax.swing.JFrame {
         });
         jMenu1.add(VerEstudiantes);
 
+        CerrarMenuD.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_Q, java.awt.event.InputEvent.ALT_DOWN_MASK));
         CerrarMenuD.setText("Cerrar Sesion");
         CerrarMenuD.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -135,6 +140,7 @@ public class PantallaDocente extends javax.swing.JFrame {
             }
         });
         jMenu2.add(AsignacionProyecto);
+        jMenu2.add(jSeparator2);
 
         Resultados.setText("Dar Resultados");
         Resultados.addActionListener(new java.awt.event.ActionListener() {
@@ -157,7 +163,7 @@ public class PantallaDocente extends javax.swing.JFrame {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addComponent(InicioDocente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(InicioDocente, javax.swing.GroupLayout.PREFERRED_SIZE, 866, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
 
@@ -252,5 +258,7 @@ public class PantallaDocente extends javax.swing.JFrame {
     private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JPopupMenu.Separator jSeparator1;
+    private javax.swing.JPopupMenu.Separator jSeparator2;
     // End of variables declaration//GEN-END:variables
 }

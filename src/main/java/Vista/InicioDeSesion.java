@@ -1,8 +1,6 @@
 package Vista;
 import Controlador.PersonaControlador;
 import java.awt.Color;
-import java.awt.Image;
-import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
 
@@ -240,21 +238,25 @@ public class InicioDeSesion extends javax.swing.JFrame {
 
     private void BtniniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtniniciarActionPerformed
    // TODO add your handling code here:
+    
 PersonaControlador pC = new PersonaControlador();
+
 int rol = pC.verificarCredenciales(txtUsuario.getText(), txtContraseña.getText());
-if (rol == 1) {
-    PantallaEstudiante m = new PantallaEstudiante();
-    JOptionPane.showMessageDialog(null, "Bienvenido Estudiante :)");
-    m.setVisible(true);
-    this.dispose();
-} else if (rol == 0) {
-    PantallaDocente m = new PantallaDocente();
-    JOptionPane.showMessageDialog(null, "Bienvenido Docente :)");
-    m.setVisible(true);
-    this.dispose();
-} else {
-    JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
-}
+        switch (rol) {
+            case 1 ->                 {
+                    PantallaEstudiante m = new PantallaEstudiante();
+                    JOptionPane.showMessageDialog(null, "Bienvenido Estudiante :)");
+                    m.setVisible(true);
+                    this.dispose();
+                }
+            case 0 ->                 {
+                    PantallaDocente m = new PantallaDocente();
+                    JOptionPane.showMessageDialog(null, "Bienvenido Docente :)");
+                    m.setVisible(true);
+                    this.dispose();
+                }
+            default -> JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
+        }
    
     }//GEN-LAST:event_BtniniciarActionPerformed
 

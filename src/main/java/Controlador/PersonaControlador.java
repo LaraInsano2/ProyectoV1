@@ -11,12 +11,10 @@ import Modelo.Proyectos;
 import Modelo.Resultados;
 import java.sql.CallableStatement;
 import java.sql.Connection;
-import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -207,6 +205,30 @@ public void InsertarResultado(Resultados r1) {
     }
 }
 
+public String actualizarDatosEstudiante(String usuarioActual, String nuevoUsuario, String nuevaClave) {
+    try {
+        // Llamada al procedimiento almacenado
+        String spActualizarDatosEstudiante = "{call sp_ActualizarDatosEstudiante(?, ?, ?)}";
+        try (CallableStatement cs = conectado.prepareCall(spActualizarDatosEstudiante)) {
+            // Configurar los parámetros del procedimiento almacenado
+            cs.setString(1, usuarioActual);
+            cs.setString(2, nuevoUsuario);
+            cs.setString(3, nuevaClave);
+
+            // Ejecutar la llamada al procedimiento almacenado
+            cs.executeUpdate();
+
+            // Obtener el mensaje de salida
+            return "Datos Actualizados Correctamente";
+        }
+    } catch (SQLException e) {
+        return "Error al Actualizar Datos: " + e.getMessage();
+    }
+}
+
+
+
+
 
 
 
@@ -235,6 +257,8 @@ public void InsertarResultado(Resultados r1) {
         return null;
 
     }
+
+    
 }
 
 
