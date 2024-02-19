@@ -6,7 +6,6 @@ package Vista;
 
 import Controlador.PersonaControlador;
 import Modelo.Asignacion;
-import Modelo.Proyectos;
 import javax.swing.JOptionPane;
 
 /**
@@ -204,7 +203,7 @@ public class CrearAsignacion extends javax.swing.JInternalFrame {
     private void btnAsignarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAsignarActionPerformed
         // TODO add your handling code here:
            // TODO add your handling code here:
-       String Grupo = txtNombreE.getText();
+    String Grupo = txtNombreE.getText();
     String Tema = txtTema.getText();
     String Nombre = txtNombre.getText();
     String Apellido = txtApellido.getText();

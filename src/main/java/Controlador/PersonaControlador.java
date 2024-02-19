@@ -8,12 +8,15 @@ import Modelo.Asignacion;
 import Modelo.Estudiante;
 import Modelo.Grupo;
 import Modelo.Proyectos;
+import Modelo.Resultados;
 import java.sql.CallableStatement;
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Types;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
@@ -179,13 +182,39 @@ public void CrearAsignacion(Asignacion a1) {
     }
 }
 
+public void InsertarResultado(Resultados r1) {
+    java.util.Date fechaUtil = r1.getFECHA_RESULTADO();
+    java.sql.Timestamp fechaSql = new java.sql.Timestamp(fechaUtil.getTime());
+
+    try {
+        String sql = "CALL sp_InsertarResultado(?, ?, ?, ?)";
+        try (PreparedStatement statement = conectado.prepareStatement(sql)) {
+            statement.setString(1, r1.getNOMBRE_PROYECTO());
+            statement.setString(2, r1.getGRUPO());
+            statement.setString(3,r1.getDESCRIPCION());
+            statement.setTimestamp(4, fechaSql);
+
+            int result = statement.executeUpdate();
+
+            if (result > 0) {
+                JOptionPane.showMessageDialog(null, "Resultado insertado con éxito");
+            } else {
+                JOptionPane.showMessageDialog(null, "Error al insertar el resultado. Revisar los datos ingresados");
+            }
+        }
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al ejecutar el procedimiento almacenado: " + e.getMessage());
+    }
+}
 
 
-    public ArrayList<Object[]> VerEstudiantes() {
+
+
+    public ArrayList<Object[]> VerResultados() {
        
     ArrayList<Object[]> listaResutaldo = new ArrayList<>();
         try {
-            String SQL = "CALL MostrarEntrenadores()";
+            String SQL = "CALL MostrarResultados()";
             ejecutar = (PreparedStatement) conectado.prepareCall(SQL);
             ResultSet res = ejecutar.executeQuery();
 

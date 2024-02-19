@@ -39,19 +39,27 @@ public class PantallaDocente extends javax.swing.JFrame {
         jMenu2 = new javax.swing.JMenu();
         AsignarProyecto = new javax.swing.JMenuItem();
         AsignacionProyecto = new javax.swing.JMenuItem();
+        Resultados = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+
+        InicioDocente.setBackground(new java.awt.Color(255, 255, 255));
+        InicioDocente.setPreferredSize(new java.awt.Dimension(1080, 720));
 
         javax.swing.GroupLayout InicioDocenteLayout = new javax.swing.GroupLayout(InicioDocente);
         InicioDocente.setLayout(InicioDocenteLayout);
         InicioDocenteLayout.setHorizontalGroup(
             InicioDocenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 1087, Short.MAX_VALUE)
+            .addGap(0, 1080, Short.MAX_VALUE)
         );
         InicioDocenteLayout.setVerticalGroup(
             InicioDocenteLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 652, Short.MAX_VALUE)
+            .addGap(0, 720, Short.MAX_VALUE)
         );
+
+        jMenuBar1.setBackground(new java.awt.Color(204, 204, 255));
+        jMenuBar1.setForeground(new java.awt.Color(51, 0, 51));
 
         jMenu1.setText("Menu Principal");
 
@@ -128,6 +136,14 @@ public class PantallaDocente extends javax.swing.JFrame {
         });
         jMenu2.add(AsignacionProyecto);
 
+        Resultados.setText("Dar Resultados");
+        Resultados.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ResultadosActionPerformed(evt);
+            }
+        });
+        jMenu2.add(Resultados);
+
         jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
@@ -136,11 +152,13 @@ public class PantallaDocente extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(InicioDocente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(InicioDocente, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(InicioDocente, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(InicioDocente, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
 
         pack();
@@ -206,6 +224,14 @@ public class PantallaDocente extends javax.swing.JFrame {
         ca.show();
     }//GEN-LAST:event_AsignacionProyectoActionPerformed
 
+    private void ResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ResultadosActionPerformed
+        // TODO add your handling code here:
+        AsignarResultados re=new AsignarResultados();
+        InicioDocente.add(re);
+        re.show();
+        
+    }//GEN-LAST:event_ResultadosActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -218,6 +244,7 @@ public class PantallaDocente extends javax.swing.JFrame {
     private javax.swing.JMenuItem CerrarMenuD;
     private javax.swing.JPanel InicioDocente;
     private javax.swing.JMenuItem MenuCrearTema;
+    private javax.swing.JMenuItem Resultados;
     private javax.swing.JMenuItem VerEstudiantes;
     private javax.swing.JMenuItem VerGrupos;
     private javax.swing.JMenuItem VerProyectos;

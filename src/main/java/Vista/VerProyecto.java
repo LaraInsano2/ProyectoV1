@@ -29,52 +29,56 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
     public VerProyecto() {
     initComponents();
         modelo = new DefaultTableModel();
-        modelo.addColumn("IDProyecto");
+        modelo.addColumn("Nro.");
         modelo.addColumn("NOMBRE_PROYECTO");
         modelo.addColumn("DESCRIPCION");
         modelo.addColumn("FECHA INICIO");
         modelo.addColumn("FECHA FINAL");
         TbDatosProyectos.setModel(modelo);
+        // Ajusta el tamaño de las columnas
+TbDatosProyectos.getColumnModel().getColumn(0).setPreferredWidth(10); // Nro.
+TbDatosProyectos.getColumnModel().getColumn(1).setPreferredWidth(75); // NOMBRE_PROYECTO
+TbDatosProyectos.getColumnModel().getColumn(2).setPreferredWidth(225); // DESCRIPCION
+TbDatosProyectos.getColumnModel().getColumn(3).setPreferredWidth(25); // FECHA INICIO
+TbDatosProyectos.getColumnModel().getColumn(4).setPreferredWidth(25); // FECHA FINAL
         MostrarDatos(0, null);
         
     }
-    //Aqui Viene de la Tabla Ver Proyectos
-     public void MostrarDatos(int opBuscar, String valor){  
-    
-     limpiarTabla();
+   public void MostrarDatos(int opBuscar, String valor) {
+    limpiarTabla();
 
-        String codsql;
-        if (opBuscar == 0 && valor == null) {
-            codsql = "Select *from Proyectos";
-        } else if (opBuscar == 1 && valor != null) {
-            codsql = "Select *from Proyectos Where NOMBRE_PROYECTO='" + valor + "'";
-        } else if (opBuscar == 2 && valor != null) {
-            codsql = "Select *from Proyectos Where DESCRIPCION_PROYECTO='" + valor + "'";
-        } else {
-            codsql = "Select *from Proyectos";
-        }
+    String codsql;
+    if (opBuscar == 0 && valor == null) {
+        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos";
+    } else if (opBuscar == 1 && valor != null) {
+        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos WHERE NOMBRE_PROYECTO='" + valor + "'";
+    } else if (opBuscar == 2 && valor != null) {
+        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos WHERE DESCRIPCION_PROYECTO='" + valor + "'";
+    } else {
+        codsql = "SELECT NOMBRE_PROYECTO, DESCRIPCION_PROYECTO, FECHA_INICIO, FECHA_FIN FROM Proyectos";
+    }
 
-        String[] datos = new String[5];
-        try {
-            Statement leer = conectado.createStatement();
-            ResultSet resultado = leer.executeQuery(codsql);
-            while (resultado.next()) {
-                datos[0] = resultado.getString(1);
-                datos[1] = resultado.getString(2);
-                datos[2] = resultado.getString(3);
-                datos[3] = resultado.getString(4);
-                datos[4] = resultado.getString(5);
-                modelo.addRow(datos);
-            }
-            TbDatosProyectos.setModel(modelo);
-        } catch (SQLException e) {
-            JOptionPane.showInputDialog(null, "error");
+    String[] datos = new String[5]; // Añadir una columna más para el número de fila
+    int numeroFila = 1; // Variable para contar el número de fila
+    try {
+        Statement leer = conectado.createStatement();
+        ResultSet resultado = leer.executeQuery(codsql);
+        while (resultado.next()) {
+            datos[0] = String.valueOf(numeroFila); // Número de fila
+            datos[1] = resultado.getString(1); // NOMBRE_PROYECTO
+            datos[2] = resultado.getString(2); // DESCRIPCION_PROYECTO
+            datos[3] = resultado.getString(3); // FECHA_INICIO
+            datos[4] = resultado.getString(4); // FECHA_FIN
+            modelo.addRow(datos);
+            numeroFila++; // Incrementar el número de fila
         }
-    
-        }
-    
-     
-     
+        TbDatosProyectos.setModel(modelo);
+    } catch (SQLException e) {
+        JOptionPane.showInputDialog(null, "error");
+    }
+}
+
+  
   public void ActualizarDatos() {
     int fila = TbDatosProyectos.getSelectedRow();
 
@@ -83,35 +87,38 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
         return;
     }
 
-    int id = Integer.parseInt(this.TbDatosProyectos.getValueAt(fila, 0).toString());
     String Titulo = TbDatosProyectos.getValueAt(fila, 1).toString();
     String Descripcion = TbDatosProyectos.getValueAt(fila, 2).toString();
     String FechaInicio = TbDatosProyectos.getValueAt(fila, 3).toString();
     String FechaFin = TbDatosProyectos.getValueAt(fila, 4).toString();
 
     try {
+        // Obtén el valor de ID_PROYECTO y conviértelo a entero
+        int idProyecto = Integer.parseInt(TbDatosProyectos.getValueAt(fila, 0).toString());
+
         PreparedStatement actu = conectado.prepareStatement("UPDATE Proyectos SET NOMBRE_PROYECTO=?, DESCRIPCION_PROYECTO=?, FECHA_INICIO=?, FECHA_FIN=? WHERE ID_PROYECTO=?");
         actu.setString(1, Titulo);
         actu.setString(2, Descripcion);
         actu.setString(3, FechaInicio);
         actu.setString(4, FechaFin);
-        actu.setInt(5, id);
+        actu.setInt(5, idProyecto);  // Asigna el valor convertido a entero
 
         int filasActualizadas = actu.executeUpdate();
 
         if (filasActualizadas > 0) {
             JOptionPane.showMessageDialog(null, "Datos actualizados correctamente");
-          
             limpiarTabla();
             // Actualizar la tabla después de actualizar el registro
             MostrarDatos(0, null);
         } else {
             JOptionPane.showMessageDialog(null, "No se pudo actualizar los datos");
         }
-    } catch (SQLException e) {
+    } catch (SQLException | NumberFormatException e) {
         JOptionPane.showMessageDialog(null, "Error al actualizar los datos: " + e.getMessage());
     }
 }
+
+
 
     public void eliminarProyecto() {
     // Verificar si se ha seleccionado una fila en la tabla
@@ -207,6 +214,11 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
         jPanel1.setName("Buscar Por:"); // NOI18N
 
         ComboOpcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mostrar Todos", "Nombre del Proyecto", "Descripcion" }));
+        ComboOpcion.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                ComboOpcionActionPerformed(evt);
+            }
+        });
 
         btnBuscar.setText("Buscar");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
@@ -259,7 +271,7 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
                 .addGap(46, 46, 46)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, 91, Short.MAX_VALUE)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGap(654, 654, 654))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnActualizar)
@@ -289,12 +301,13 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jScrollPane1)
-                .addContainerGap())
-            .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 1121, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 1123, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -302,9 +315,9 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(30, 30, 30))
+                .addContainerGap(51, Short.MAX_VALUE))
         );
 
         pack();
@@ -343,6 +356,10 @@ public final class VerProyecto extends javax.swing.JInternalFrame {
         // TODO add your handling code here:
         limpiarTabla();
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void ComboOpcionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ComboOpcionActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_ComboOpcionActionPerformed
 
    private void limpiarTabla() {
         // Limpiar el modelo actual de la tabla

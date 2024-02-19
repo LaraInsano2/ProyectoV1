@@ -28,7 +28,6 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
     public VerAsignacion() {
         initComponents();
         modelo = new DefaultTableModel();
-        modelo.addColumn("ID_ASIGNACION");
         modelo.addColumn("GRUPO");
         modelo.addColumn("NOMBRE PROYECTO");
         modelo.addColumn("NOMBRE DOCENTE");
@@ -40,22 +39,21 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         MostrarDatos(0, null);
     }
     
-    public void MostrarDatos(int opBuscar, String valor){  
-    
-     limpiarTabla();
+    public void MostrarDatos(int opBuscar, String valor) {
+    limpiarTabla();
 
-        String codsql;
-        if (opBuscar == 0 && valor == null) {
-            codsql = "Select *from Asignacion";
-        } else if (opBuscar == 1 && valor != null) {
-            codsql = "Select *from Asignacion Where GRUPO='" + valor + "'";
-        } else if (opBuscar == 2 && valor != null) {
-            codsql = "Select *from Asignacion Where NOMBRE_DOCENTE='" + valor + "'";
-        } else {
-            codsql = "Select *from Asignacion";
-        }
+    String codsql;
+    if (opBuscar == 0 && valor == null) {
+        codsql = "SELECT GRUPO, NOMBRE_PROYECTO, NOMBRE_DOCENTE, APELLIDO_DOCENTE, ESTADO_TAREA, FECHA_INICIO_TAREA, FECHA_FIN_TAREA FROM Asignacion";
+    } else if (opBuscar == 1 && valor != null) {
+        codsql = "SELECT GRUPO, NOMBRE_PROYECTO, NOMBRE_DOCENTE, APELLIDO_DOCENTE, ESTADO_TAREA, FECHA_INICIO_TAREA, FECHA_FIN_TAREA FROM Asignacion WHERE NOMBRE_DOCENTE='" + valor + "'";
+    } else if (opBuscar == 2 && valor != null) {
+        codsql = "SELECT GRUPO, NOMBRE_PROYECTO, NOMBRE_DOCENTE, APELLIDO_DOCENTE, ESTADO_TAREA, FECHA_INICIO_TAREA, FECHA_FIN_TAREA FROM Asignacion WHERE ESTADO_TAREA='" + valor + "'";
+    } else {
+        codsql = "SELECT GRUPO, NOMBRE_PROYECTO, NOMBRE_DOCENTE, APELLIDO_DOCENTE, ESTADO_TAREA, FECHA_INICIO_TAREA, FECHA_FIN_TAREA FROM Asignacion";
+    }
 
-        String[] datos = new String[8];
+        String[] datos = new String[7];
         try {
             Statement leer = conectado.createStatement();
             ResultSet resultado = leer.executeQuery(codsql);
@@ -67,7 +65,6 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
                 datos[4] = resultado.getString(5);
                 datos[5] = resultado.getString(6);
                 datos[6] = resultado.getString(7);
-                datos[7] = resultado.getString(8);
 
                 modelo.addRow(datos);
             }
@@ -85,14 +82,14 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         return;
     }
 
-    int id = Integer.parseInt(this.tbAsignacion.getValueAt(fila, 0).toString());
-    String Grupo = tbAsignacion.getValueAt(fila, 1).toString();
-    String NombreP = tbAsignacion.getValueAt(fila, 2).toString();
-    String NombreD = tbAsignacion.getValueAt(fila, 3).toString();
-    String ApellidoD = tbAsignacion.getValueAt(fila, 4).toString();
-    String Estado = tbAsignacion.getValueAt(fila, 5).toString();
-    String FechaI = tbAsignacion.getValueAt(fila, 6).toString();
-    String FechaF = tbAsignacion.getValueAt(fila, 7).toString();
+ 
+    String Grupo = tbAsignacion.getValueAt(fila, 0).toString();
+    String NombreP = tbAsignacion.getValueAt(fila, 1).toString();
+    String NombreD = tbAsignacion.getValueAt(fila, 2).toString();
+    String ApellidoD = tbAsignacion.getValueAt(fila, 3).toString();
+    String Estado = tbAsignacion.getValueAt(fila, 4).toString();
+    String FechaI = tbAsignacion.getValueAt(fila, 5).toString();
+    String FechaF = tbAsignacion.getValueAt(fila, 6).toString();
     try {
         PreparedStatement actu = conectado.prepareStatement("UPDATE Asignacion SET GRUPO=?, NOMBRE_PROYECTO=?,NOMBRE_DOCENTE=?,APELLIDO_DOCENTE=?, ESTADO_TAREA=?,FECHA_INICIO_TAREA=?,FECHA_FIN_TAREA =? WHERE ID_ASIGNACION=?");
         actu.setString(1, Grupo);
@@ -102,7 +99,7 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         actu.setString(4, Estado);
         actu.setString(4, FechaI);
         actu.setString(4, FechaF);
-        actu.setInt(5, id);
+       
 
         int filasActualizadas = actu.executeUpdate();
 
@@ -119,6 +116,38 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         JOptionPane.showMessageDialog(null, "Error al actualizar los datos: " + e.getMessage());
     }
 }
+    
+    public void eliminarAsignacion() {
+    // Verificar si se ha seleccionado una fila en la tabla
+    int fila = tbAsignacion.getSelectedRow();
+    if (fila == -1) {
+        JOptionPane.showMessageDialog(rootPane, "Por favor, seleccione una asignación para eliminar.");
+        return;
+    }
+    
+    // Obtener el ID de la asignación seleccionada en la fila
+    int idAsignacion = Integer.parseInt(tbAsignacion.getValueAt(fila, 0).toString());
+
+    try {
+        // Utilizar un parámetro preparado para evitar inyección SQL
+        PreparedStatement eliminar = conectado.prepareStatement("DELETE FROM Asignacion WHERE ID_ASIGNACION = ?");
+        eliminar.setInt(1, idAsignacion);
+        
+        // Ejecutar la consulta para eliminar la asignación
+        int filasAfectadas = eliminar.executeUpdate();
+        
+        // Verificar si se eliminó correctamente y actualizar la tabla si es necesario
+        if (filasAfectadas > 0) {
+            JOptionPane.showMessageDialog(rootPane, "Asignación borrada correctamente.");
+            limpiarTabla();
+        } else {
+            JOptionPane.showMessageDialog(rootPane, "No se pudo eliminar la asignación.");
+        }
+    } catch (SQLException | NumberFormatException e) {
+        JOptionPane.showMessageDialog(rootPane, "Error al eliminar la asignación. Comunicarse con el Administrador. " + e.getMessage());
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -137,6 +166,7 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         btnActualizar = new javax.swing.JButton();
         btnBuscar = new javax.swing.JButton();
         btnLimpiar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
 
         setClosable(true);
         setIconifiable(true);
@@ -154,7 +184,7 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
 
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Ver Por:"));
 
-        ComboOpcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mostrar Todos", "Nombre del Estudiante", "Cedula" }));
+        ComboOpcion.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Mostrar Todos", "Docente Encargado", "Estado Tarea" }));
 
         btnActualizar.setText("Actualizar");
         btnActualizar.addActionListener(new java.awt.event.ActionListener() {
@@ -178,24 +208,33 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
             }
         });
 
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(71, 71, 71)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(ComboOpcion, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(59, 59, 59)
-                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(44, 44, 44)
-                        .addComponent(btnActualizar))
-                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, jPanel1Layout.createSequentialGroup()
+                        .addComponent(txtBuscar, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(btnLimpiar)
                         .addGap(163, 163, 163)
                         .addComponent(btnBuscar)))
-                .addContainerGap(338, Short.MAX_VALUE))
+                .addGap(44, 44, 44)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(btnEliminar)
+                    .addComponent(btnActualizar))
+                .addContainerGap(355, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -208,7 +247,8 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
                 .addGap(18, 18, 18)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(btnLimpiar, javax.swing.GroupLayout.DEFAULT_SIZE, 31, Short.MAX_VALUE)
-                    .addComponent(btnBuscar))
+                    .addComponent(btnBuscar)
+                    .addComponent(btnEliminar))
                 .addGap(14, 14, 14))
         );
 
@@ -253,6 +293,11 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
         limpiarTabla();
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+        eliminarAsignacion();
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
  private void limpiarTabla() {
         // Limpiar el modelo actual de la tabla
         DefaultTableModel modeloTabla = (DefaultTableModel) tbAsignacion.getModel();
@@ -262,6 +307,7 @@ public class VerAsignacion extends javax.swing.JInternalFrame {
     private javax.swing.JComboBox<String> ComboOpcion;
     private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnLimpiar;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;

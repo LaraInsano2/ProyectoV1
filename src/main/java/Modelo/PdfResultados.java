@@ -78,7 +78,7 @@ public class PdfResultados {
 
             int contador = 0; // Inicializar el contador aquí
             PersonaControlador ec = new PersonaControlador();
-            ArrayList<Object[]> listaEntrenador = ec.VerEstudiantes();
+            ArrayList<Object[]> listaEntrenador = ec.VerResultados();
             for (Object[] fila : listaEntrenador) {
                 tabla.addCell(String.valueOf(contador + 1)); // Incrementar el contador aquí
                 tabla.addCell((String) fila[1]); // Obtener el nombre del entrenador desde la fila
