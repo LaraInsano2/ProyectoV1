@@ -227,52 +227,27 @@ public String actualizarDatosEstudiante(String usuarioActual, String nuevoUsuari
 }
 
 
+   
+public ArrayList<Object[]> VerResultados() {
+    ArrayList<Object[]> listaResultado = new ArrayList<>();
+    try {
+        String SQL = "CALL MostrarResultados()";
+        ejecutar = (PreparedStatement) conectado.prepareCall(SQL);
+        ResultSet res = ejecutar.executeQuery();
 
-
-
-
-
-    public ArrayList<Object[]> VerResultados() {
-       
-    ArrayList<Object[]> listaResutaldo = new ArrayList<>();
-        try {
-            String SQL = "CALL MostrarResultados()";
-            ejecutar = (PreparedStatement) conectado.prepareCall(SQL);
-            ResultSet res = ejecutar.executeQuery();
-
-            while (res.next()) {
-                Object[] fila = new Object[8];
-                for (int i = 0; i < 8; i++) {
-                    fila[i] = res.getObject(i + 1);
-                }
-                listaResutaldo.add(fila);
-
+        while (res.next()) {
+            Object[] fila = new Object[4]; 
+            for (int i = 0; i < 4; i++) {
+                fila[i] = res.getObject(i + 1);
             }
-            res.close();
-            return listaResutaldo;
-        } catch (Exception e) {
-            System.out.println(e);
-
+            listaResultado.add(fila);
         }
-        return null;
-
+        res.close();
+        return listaResultado;
+    } catch (Exception e) {
+        System.out.println(e);
     }
-
+    return null;
+}
     
 }
-
-
-
-
-   
-
-
-   
-
-
-
-    
-    
-    
-
-

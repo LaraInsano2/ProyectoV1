@@ -81,7 +81,7 @@ public class CambiarDatos extends javax.swing.JFrame {
                 btnCambiarDatosActionPerformed(evt);
             }
         });
-        jPanel1.add(btnCambiarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 360, 130, 40));
+        jPanel1.add(btnCambiarDatos, new org.netbeans.lib.awtextra.AbsoluteConstraints(300, 340, 130, 40));
 
         jLabel4.setFont(new java.awt.Font("Microsoft YaHei UI", 1, 14)); // NOI18N
         jLabel4.setText("Usuario Actual:");
@@ -96,7 +96,7 @@ public class CambiarDatos extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 650, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)

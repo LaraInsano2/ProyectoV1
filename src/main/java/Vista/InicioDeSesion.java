@@ -238,25 +238,29 @@ public class InicioDeSesion extends javax.swing.JFrame {
 
     private void BtniniciarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_BtniniciarActionPerformed
    // TODO add your handling code here:
-    
+   
 PersonaControlador pC = new PersonaControlador();
-
 int rol = pC.verificarCredenciales(txtUsuario.getText(), txtContraseña.getText());
-        switch (rol) {
-            case 1 ->                 {
-                    PantallaEstudiante m = new PantallaEstudiante();
-                    JOptionPane.showMessageDialog(null, "Bienvenido Estudiante :)");
-                    m.setVisible(true);
-                    this.dispose();
-                }
-            case 0 ->                 {
-                    PantallaDocente m = new PantallaDocente();
-                    JOptionPane.showMessageDialog(null, "Bienvenido Docente :)");
-                    m.setVisible(true);
-                    this.dispose();
-                }
-            default -> JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
-        }
+
+switch (rol) {
+    case 1: {
+        PantallaEstudiante m = new PantallaEstudiante();
+        JOptionPane.showMessageDialog(null, "Bienvenido Estudiante :)");
+        m.setVisible(true);
+        this.dispose();
+        break;
+    }
+    case 0: {
+        PantallaDocente m = new PantallaDocente();
+        JOptionPane.showMessageDialog(null, "Bienvenido Docente :)");
+        m.setVisible(true);
+        this.dispose();
+        break;
+    }
+    default:
+        JOptionPane.showMessageDialog(null, "Ingrese credenciales válidas");
+}
+
    
     }//GEN-LAST:event_BtniniciarActionPerformed
 

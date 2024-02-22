@@ -237,7 +237,9 @@ public class PantallaEstudiante extends javax.swing.JFrame {
 
     private void VerResultadosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_VerResultadosActionPerformed
         // TODO add your handling code here:
-        
+        VerResultados vr=new VerResultados();
+        vr.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_VerResultadosActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed

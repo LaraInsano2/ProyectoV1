@@ -4,18 +4,81 @@
  */
 package Vista;
 
+import Controlador.ConexionBDD;
+import Controlador.PersonaControlador;
+import Modelo.Grupo;
+import Modelo.PdfResultados;
+import Modelo.Resultados;
+import com.itextpdf.text.DocumentException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.util.ArrayList;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author Dilan Lara
  */
-public class VerResultados extends javax.swing.JFrame {
-
+public final class VerResultados extends javax.swing.JFrame {
+ ArrayList<Resultados> listaResultados = new ArrayList<>();
+ 
+    ConexionBDD conectar = new ConexionBDD();
+    Connection conectado = conectar.conectar();
+    DefaultTableModel modelo;
     /**
      * Creates new form VerResultados
      */
     public VerResultados() {
         initComponents();
+        modelo = new DefaultTableModel();  
+        modelo.addColumn("Nro.");
+        modelo.addColumn("Nombre del Proyecto");
+        modelo.addColumn("GRUPO");
+        modelo.addColumn("Descripcion");
+         modelo.addColumn("Fecha Emitida");
+        tblResultados.setModel(modelo);
+        
+        
     }
+   
+
+ private void buscarPorGrupo(String nombreGrupo) {
+    // Limpiar la tabla antes de mostrar los resultados de la búsqueda
+    limpiarTabla();
+
+    // Consulta SQL para buscar grupos por nombre
+    String codsql = "SELECT NOMBRE_PROYECTO, GRUPO, DESCRIPCION_RESULTADO, FECHA_RESULTADO FROM Resultados WHERE GRUPO LIKE ?";
+
+    // Array para almacenar los datos de cada fila
+    String[] datos = new String[5]; // Ajusta el tamaño según la cantidad de columnas
+
+    try {
+        PreparedStatement statement = conectado.prepareStatement(codsql);
+        statement.setString(1, "%" + nombreGrupo + "%");
+        ResultSet resultado = statement.executeQuery();
+
+        int numeroFila = 1;
+        while (resultado.next()) {
+            datos[0] = String.valueOf(numeroFila);
+            datos[1] = resultado.getString(1); // Ajusta el índice según tu estructura de tabla
+            datos[2] = resultado.getString(2); // Ajusta el índice según tu estructura de tabla
+            datos[3] = resultado.getString(3); // Ajusta el índice según tu estructura de tabla
+            datos[4] = resultado.getString(4); // Ajusta el índice según tu estructura de tabla
+
+            modelo.addRow(datos);
+            numeroFila++;
+        }
+
+        tblResultados.setModel(modelo); // Establecer el modelo en la tabla
+    } catch (SQLException e) {
+        JOptionPane.showMessageDialog(null, "Error al buscar grupo: " + e.getMessage());
+    }
+}
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -27,27 +90,123 @@ public class VerResultados extends javax.swing.JFrame {
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tblResultados = new javax.swing.JTable();
+        btnGenerarPdf = new javax.swing.JButton();
+        jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        txtGrupo = new javax.swing.JTextField();
+        jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
 
+        tblResultados.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+
+            }
+        ));
+        jScrollPane1.setViewportView(tblResultados);
+
+        btnGenerarPdf.setBackground(new java.awt.Color(51, 51, 255));
+        btnGenerarPdf.setForeground(new java.awt.Color(255, 255, 255));
+        btnGenerarPdf.setText("Generar PDF");
+        btnGenerarPdf.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGenerarPdfActionPerformed(evt);
+            }
+        });
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 2, 24)); // NOI18N
+        jLabel1.setText("Resultados del Proyecto De Investigacion");
+
+        jLabel2.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\Ist.jpg")); // NOI18N
+
+        jButton1.setIcon(new javax.swing.ImageIcon("C:\\Users\\Dilan Lara\\Documents\\NetBeansProjects\\ProyectoV1\\src\\test\\java\\Imagen\\regresar2.png")); // NOI18N
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("A que grupo Pertece:");
+
+        jButton2.setText("VER");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 665, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGap(0, 198, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 413, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(139, 139, 139))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(25, 25, 25)
+                        .addComponent(jButton1)
+                        .addGap(170, 170, 170)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(84, 84, 84)
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 125, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(txtGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(jButton2)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane1)
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnGenerarPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 151, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(296, 296, 296))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 498, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
+                        .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(44, 44, 44)
+                        .addComponent(jButton1)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(35, 35, 35)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(txtGrupo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton2))
+                .addGap(34, 34, 34)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(btnGenerarPdf, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(156, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -57,8 +216,60 @@ public class VerResultados extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnGenerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPdfActionPerformed
+        // TODO add your handling code here:
+        
+      try {
+        PersonaControlador ec = new PersonaControlador();
+        ArrayList<Object[]> listaResultado = ec.VerResultados();    
+        PdfResultados pdf = new PdfResultados();
+        LocalDate fechaActual = LocalDate.now();
+        java.sql.Date sqlDate = java.sql.Date.valueOf(fechaActual);
+        pdf.setListaResultados(listaResultado);
+        pdf.CrearPdf();
+    } catch (DocumentException ex) {
+          // Manejar la excepción según tus necesidades (puede ser mostrar un mensaje de error, por ejemplo)
+          
+    }
+
+    }//GEN-LAST:event_btnGenerarPdfActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        
+         PantallaEstudiante inicioE =new PantallaEstudiante();
+        inicioE.setVisible(true);
+        // Cerrar la ventana actual
+        this.dispose();
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+         String Grupo=txtGrupo.getText();
+        Grupo g1 =new Grupo();
+        g1.setGRUPO(Grupo);
+        buscarPorGrupo(Grupo); 
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void limpiarTabla() {
+        // Limpiar el modelo actual de la tabla
+        DefaultTableModel modeloTabla = (DefaultTableModel) tblResultados.getModel();
+        modeloTabla.setRowCount(0);
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnGenerarPdf;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JTable tblResultados;
+    private javax.swing.JTextField txtGrupo;
     // End of variables declaration//GEN-END:variables
+
+
+    
 }
