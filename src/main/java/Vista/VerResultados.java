@@ -218,13 +218,11 @@ public final class VerResultados extends javax.swing.JFrame {
 
     private void btnGenerarPdfActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGenerarPdfActionPerformed
         // TODO add your handling code here:
-        
+        Resultados re =new Resultados();
       try {
         PersonaControlador ec = new PersonaControlador();
         ArrayList<Object[]> listaResultado = ec.VerResultados();    
         PdfResultados pdf = new PdfResultados();
-        LocalDate fechaActual = LocalDate.now();
-        java.sql.Date sqlDate = java.sql.Date.valueOf(fechaActual);
         pdf.setListaResultados(listaResultado);
         pdf.CrearPdf();
     } catch (DocumentException ex) {
